@@ -2,6 +2,8 @@
 import PortalDemo from './components/PortalDemo';
 import Hero from './components/Hero';
 import ErrorBoundry from './ErrorBoundry';
+import ClickCounterHOS from './components/clickCounterHOS';
+import HoverCOunterHOS from './components/HoverCOunterHOS';
 //import ParentComp from './components/ParentComp';
 //import RefDemo from './components/RefDemo';
 //import FocusInputRef from './components/FocusInputRef';
@@ -31,15 +33,8 @@ import ErrorBoundry from './ErrorBoundry';
 function App() {
   return (
     <div className="App">
-      <ErrorBoundry> 
-        <Hero heroName="Batman"/>
-      </ErrorBoundry>
-      <ErrorBoundry> 
-        <Hero heroName="Superman"/>
-      </ErrorBoundry>
-      <ErrorBoundry> 
-        <Hero heroName="Joker"/>
-      </ErrorBoundry>    
+      <ClickCounterHOS />
+      <HoverCOunterHOS />   
     </div>
   );
 }
