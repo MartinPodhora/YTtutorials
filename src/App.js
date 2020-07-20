@@ -1,8 +1,11 @@
  import React from 'react';
+import PortalDemo from './components/PortalDemo';
+import Hero from './components/Hero';
+import ErrorBoundry from './ErrorBoundry';
 //import ParentComp from './components/ParentComp';
 //import RefDemo from './components/RefDemo';
 //import FocusInputRef from './components/FocusInputRef';
-import FRParentInput from './components/refs/FRParentInput';
+//import FRParentInput from './components/refs/FRParentInput';
 //import logo from './logo.svg';
 //import { Message } from "./components/message"
 //import Counter from "./components/Counter"
@@ -28,7 +31,15 @@ import FRParentInput from './components/refs/FRParentInput';
 function App() {
   return (
     <div className="App">
-      <FRParentInput />
+      <ErrorBoundry> 
+        <Hero heroName="Batman"/>
+      </ErrorBoundry>
+      <ErrorBoundry> 
+        <Hero heroName="Superman"/>
+      </ErrorBoundry>
+      <ErrorBoundry> 
+        <Hero heroName="Joker"/>
+      </ErrorBoundry>    
     </div>
   );
 }
