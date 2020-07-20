@@ -8,8 +8,10 @@ class PureComp extends PureComponent {
     //                              -predosli stav je rovnaky ako aktualny
     //                              -predosle props su rovnake ako aktualne
     //
-    //      ak su rozdielne tak ho prekresli, inac nie
-    //      ale neprekresli nikdy ani children  
+    //      ak su rozdielne tak ho prekresli, inac nie, hodi sa pri optimalizacii 
+    //      ale neprekresli nikdy ani children 
+    //      nikdy nemenit state vzdy vracat novy objekt alebo stav
+    //      pre FC je Memo
 
     render() {
         console.log("Pure Comp render")

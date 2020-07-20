@@ -1,5 +1,7 @@
  import React from 'react';
 import ParentComp from './components/ParentComp';
+import RefDemo from './components/RefDemo';
+import FocusInputRef from './components/FocusInputRef';
 //import logo from './logo.svg';
 //import { Message } from "./components/message"
 //import Counter from "./components/Counter"
@@ -25,7 +27,7 @@ import ParentComp from './components/ParentComp';
 function App() {
   return (
     <div className="App">
-      <ParentComp />
+      <FocusInputRef />
     </div>
   );
 }
