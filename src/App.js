@@ -2,8 +2,10 @@
 import PortalDemo from './components/PortalDemo';
 import Hero from './components/Hero';
 import ErrorBoundry from './components/ErrorBoundry';
-import ClickCounterHOS from './components/clickCounterHOS';
-import HoverCOunterHOS from './components/HoverCOunterHOS';
+import ClickCounterHOS from './components/HOS/clickCounterHOS';
+import HoverCOunterHOS from './components/HOS/HoverCOunterHOS';
+import ClickCounterTwo from './components/ClickCounterTwo';
+import HoverCounterTwo from './components/HoverCounterTwo';
 //import ParentComp from './components/ParentComp';
 //import RefDemo from './components/RefDemo';
 //import FocusInputRef from './components/FocusInputRef';
@@ -33,8 +35,8 @@ import HoverCOunterHOS from './components/HoverCOunterHOS';
 function App() {
   return (
     <div className="App">
-      <ClickCounterHOS />
-      <HoverCOunterHOS />   
+      <ClickCounterTwo />
+      <HoverCounterTwo /> 
     </div>
   );
 }

@@ -6,7 +6,7 @@ function Table() {
         <table>
             <tbody>
                 <tr>
-                    <Columns />
+                    <Columns />                                       
                 </tr>
             </tbody>
         </table>
