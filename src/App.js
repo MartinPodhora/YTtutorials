@@ -7,6 +7,7 @@ import HoverCOunterHOS from './components/HOS/HoverCOunterHOS';
 import ClickCounterTwo from './components/ClickCounterTwo';
 import HoverCounterTwo from './components/HoverCounterTwo';
 import Ajaxtestt from './components/Ajaxtestt';
+import Axiostest from './components/Axiostest.js'
 //import ParentComp from './components/ParentComp';
 //import RefDemo from './components/RefDemo';
 //import FocusInputRef from './components/FocusInputRef';
@@ -37,33 +38,36 @@ function App() {
   return (
     <div className="App" >
       <table cellPadding="20px">
-        <tr>
+        <tbody>
+          <tr>
+            <th>
+              <Ajaxtestt timeId="time1" timezone={-11} country="Los Angeles"/>
+            </th>
+            <th>
+              <Ajaxtestt timeId="time2" timezone={-8} country="New York"/>
+            </th>
+            <th>
+              <Ajaxtestt timeId="time3" timezone={-3} country="London"/>
+            </th>
+            <th>
+              <Ajaxtestt timeId="time4" timezone={-2} country="Paris"/>
+            </th>
+          </tr>
+          <tr>
           <th>
-            <Ajaxtestt timeId="time1" timezone={-11} country="Los Angeles"/>
-          </th>
-          <th>
-            <Ajaxtestt timeId="time2" timezone={-8} country="New York"/>
-          </th>
-          <th>
-            <Ajaxtestt timeId="time3" timezone={-3} country="London"/>
-          </th>
-          <th>
-            <Ajaxtestt timeId="time4" timezone={-2} country="Paris"/>
-          </th>
-        </tr>
-        <tr>
-        <th>
-            <Ajaxtestt timeId="time5" timezone={-1} country="Mosscow"/>
-          </th>
-          <th>
-            <Ajaxtestt timeId="time6" timezone={4} country="Bejing"/>
-          </th>
-          <th>
-            <Ajaxtestt timeId="time7" timezone={5} country="Tokyo"/>  
-          </th>
-        </tr>
+              <Ajaxtestt timeId="time5" timezone={-1} country="Mosscow"/>
+            </th>
+            <th>
+              <Ajaxtestt timeId="time6" timezone={4} country="Bejing"/>
+            </th>
+            <th>
+              <Ajaxtestt timeId="time7" timezone={5} country="Tokyo"/>  
+            </th>
+          </tr>
+        </tbody>
+        
       </table>
-         
+      <Axiostest />
     </div>
   );
 }

@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 
 const updateTime = () => {
   var ajax = new XMLHttpRequest();
   let output;
-  let time;
 
   ajax.onreadystatechange = (parm) => {
     let input = parm.target;
@@ -16,7 +15,7 @@ const updateTime = () => {
   ajax.open('GET', 'http://date.jsontest.com', false);
   ajax.send();
 
-  return (time = output.milliseconds_since_epoch);
+  return output.milliseconds_since_epoch;
 };
 
 const Ajaxtestt = ({ timeId, timezone, country }) => {
