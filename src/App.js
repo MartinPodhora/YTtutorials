@@ -1,13 +1,16 @@
- import React from 'react';
-import PortalDemo from './components/PortalDemo';
-import Hero from './components/Hero';
-import ErrorBoundry from './components/ErrorBoundry';
-import ClickCounterHOS from './components/HOS/clickCounterHOS';
-import HoverCOunterHOS from './components/HOS/HoverCOunterHOS';
-import ClickCounterTwo from './components/ClickCounterTwo';
-import HoverCounterTwo from './components/HoverCounterTwo';
-import Ajaxtestt from './components/Ajaxtestt';
-import Axiostest from './components/Axiostest.js'
+ import React, { useState } from 'react';
+// import PortalDemo from './components/PortalDemo';
+// import Hero from './components/Hero';
+// import ErrorBoundry from './components/ErrorBoundry';
+// import ClickCounterHOS from './components/HOS/clickCounterHOS';
+// import HoverCOunterHOS from './components/HOS/HoverCOunterHOS';
+// import ClickCounterTwo from './components/ClickCounterTwo';
+// import HoverCounterTwo from './components/HoverCounterTwo';
+// import Ajaxtestt from './components/Ajaxtestt';
+// import Axiostest from './components/Axiostest.js'
+import InputForm from './components/persons/InputForm';
+import { Grid } from '@material-ui/core';
+import PersonComp from './components/persons/PersonComp';
 //import ParentComp from './components/ParentComp';
 //import RefDemo from './components/RefDemo';
 //import FocusInputRef from './components/FocusInputRef';
@@ -33,7 +36,7 @@ import Axiostest from './components/Axiostest.js'
 //import PureComp from './components/PureComponent';
 
 
-
+/*
 function App() {
   return (
     <div className="App" >
@@ -68,6 +71,47 @@ function App() {
         
       </table>
       <Axiostest />
+    </div>
+  );
+}
+*/
+
+function App() {
+  const [personList, setpersonList] = useState([])
+  const [id, setid] = useState(0)
+
+  const add = person => {
+    person.id = id
+    setid(id + 1)
+    setpersonList([...personList, person])
+  }
+
+  const deleteHandler = indx => {
+    console.log(indx)
+    setpersonList(personList.filter(i => i.id !== indx))
+  }
+
+  return (
+    <div className="App" >
+      <InputForm addP={add}/>
+      <Grid 
+        container
+        spacing={5}
+        direction="row"
+        justify="flex-start"
+        alignItems="baseline"
+        style= {{margin: "10px"}}
+      >
+      {personList.map(tmp =>
+        <Grid item> 
+          <PersonComp
+          key={tmp.id}
+          person={tmp} 
+          onDel={deleteHandler}
+          />
+        </Grid>
+      )}  
+      </Grid>
     </div>
   );
 }

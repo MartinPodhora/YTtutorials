@@ -7,7 +7,7 @@ function Axiostest() {
     axios.get('https://jsonplaceholder.typicode.com/users')
             .then(res => {
                 setpersons(res.data)
-                //console.log(persons)
+                console.log(persons)
             })
 
 
