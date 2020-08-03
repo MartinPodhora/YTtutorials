@@ -1,4 +1,4 @@
- import React, { useState } from 'react';
+ import React, { useState, useEffect } from 'react';
 // import PortalDemo from './components/PortalDemo';
 // import Hero from './components/Hero';
 // import ErrorBoundry from './components/ErrorBoundry';
@@ -11,6 +11,7 @@
 import InputForm from './components/persons/InputForm';
 import { Grid } from '@material-ui/core';
 import PersonComp from './components/persons/PersonComp';
+import Axios from 'axios';
 //import ParentComp from './components/ParentComp';
 //import RefDemo from './components/RefDemo';
 //import FocusInputRef from './components/FocusInputRef';
@@ -76,20 +77,60 @@ function App() {
 }
 */
 
+const reload = (setpersonList) => {
+  Axios.get("http://192.168.0.61:9011/UAM/rest/applications/7289/businessunits")
+    .then(
+      dat => setpersonList(
+        dat.data.map(user => {
+          let descr = JSON.parse(user.description)
+          descr.id = user.id
+          return descr
+        })
+      ),
+      console.log("reloaded")
+    )
+}
+
 function App() {
-  const [personList, setpersonList] = useState([])
-  const [id, setid] = useState(0)
+  const [personList, setpersonList] = useState([]) 
+  //setInterval(reload(setpersonList), 5000)
+
+  const getNewId = () => {
+    let max = 0
+    for(let i = 0; i < personList.length; i++) {
+      max < personList[i].id && (max = personList[i].id)
+    }
+    return max
+  }
 
   const add = person => {
-    person.id = id
-    setid(id + 1)
+    person.id = getNewId() + 1
     setpersonList([...personList, person])
+    Axios.post("http://192.168.0.61:9011/UAM/rest/applications/7289/businessunits", {
+      "id": person.id,
+      "name": person.id,
+      "description": JSON.stringify(person)
+    }).then(() => reload(setpersonList)) 
   }
 
   const deleteHandler = indx => {
-    console.log(indx)
+    Axios.delete("http://192.168.0.61:9011/UAM/rest/applications/7289/businessunits/" + indx).catch(e => console.log(e))
     setpersonList(personList.filter(i => i.id !== indx))
   }
+
+  useEffect(() => {
+    Axios.get("http://192.168.0.61:9011/UAM/rest/applications/7289/businessunits")
+      .then(
+        dat => setpersonList(
+          dat.data.map(user => {
+            let descr = JSON.parse(user.description)
+            descr.id = user.id
+            return descr
+          })
+        ),
+      )
+    setInterval(() => reload(setpersonList), 50000)  
+  }, [])
 
   return (
     <div className="App" >
@@ -103,7 +144,7 @@ function App() {
         style= {{margin: "10px"}}
       >
       {personList.map(tmp =>
-        <Grid item> 
+        <Grid item key={tmp.id}> 
           <PersonComp
           key={tmp.id}
           person={tmp} 
