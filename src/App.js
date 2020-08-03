@@ -12,6 +12,7 @@ import InputForm from './components/persons/InputForm';
 import { Grid } from '@material-ui/core';
 import PersonComp from './components/persons/PersonComp';
 import Axios from 'axios';
+import Navbar from './components/persons/Navbar';
 //import ParentComp from './components/ParentComp';
 //import RefDemo from './components/RefDemo';
 //import FocusInputRef from './components/FocusInputRef';
@@ -153,6 +154,7 @@ function App() {
         </Grid>
       )}  
       </Grid>
+      <Navbar />
     </div>
   );
 }
