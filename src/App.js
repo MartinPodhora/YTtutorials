@@ -135,6 +135,7 @@ function App() {
 
   return (
     <div className="App" >
+      <Navbar />
       <InputForm addP={add}/>
       <Grid 
         container
@@ -154,7 +155,7 @@ function App() {
         </Grid>
       )}  
       </Grid>
-      <Navbar />
+      
     </div>
   );
 }

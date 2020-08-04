@@ -14,11 +14,12 @@ function InputForm({addP}) {
 
     return (
         <React.Fragment>
-            <Grid container 
+            <Grid container
                 spacing={2}
                 direction="column"
                 justify="center"
                 alignItems="center"
+                style={{marginTop: '60px'}}
             >   
                 <Grid item xs={3}>
                 </Grid>

@@ -1,51 +1,63 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui-icons/Menu';
-import AccountCircle from 'material-ui-icons/AccountCircle';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import { Button, Drawer } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { BrowserRouter as Router, Switch, Route, Link} from "react-router-dom"
 
-const styles = theme => ({
-  root: {
-    marginTop: theme.spacing.unit *3,
-    width: '100%'
+const useStyles = makeStyles({
+  list: {
+    width: 250,
   },
-  flex: {
-    flex: 1
+  fullList: {
+    width: 'auto',
   },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20
+});
+
+const Navbar = (props) => {
+  const {showMenu, login, logged} = props
+  const classes = useStyles();
+  
+
+  const toggleDrawer = (anchor, open) => (event) => {
+
   }
-})
 
-class Navbar extends Component {
-  render() {
-    const {classes} = this.props;
 
-    return (
-      <AppBar position="static" elevation={0}>
+  return (
+    <>
+    <AppBar position="fixed" elevation={0}>
         <Toolbar>
-          <IconButton className={classes.menuButton} color="contrast" onClick={this.props.toggleDrawer}><MenuIcon/></IconButton>
-          <Typography className={classes.flex} type="title" color="inherit">
-            Material-UI Demo App
-          </Typography>
-          <div>
-            <IconButton color="contrast" onClick={this.props.login}>
+          <IconButton color="contrast" onClick={showMenu}>
+            <MenuIcon/>
+          </IconButton>
+          <Typography type="title" color="inherit" style={{width: '100%', margin: '20px'}}>
+            Person info database
+          </Typography>       
+          <IconButton color="contrast" onClick={login}>
               <AccountCircle/>
-            </IconButton>
-          </div>
+          </IconButton>
+          <Typography type="title" color="inherit" style={{width: '8%', margin: '20px'}}>
+            {logged ? "logout" : "log in"}
+          </Typography>
         </Toolbar>
       </AppBar>
-    )
-  }
+
+
+
+      <Router>
+        <div style={{display: "flex"}}>
+          <Drawer>
+          
+          </Drawer>
+        </div>
+      </Router>
+    </>
+  )
 }
 
-Navbar.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Navbar);
+export default Navbar;
