@@ -1,9 +1,10 @@
 import React from 'react'
 import { Card, Typography, CardContent, CardMedia, IconButton } from '@material-ui/core';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import EditIcon from '@material-ui/icons/Edit';
 
-function PersonComp({person, onDel}) {
-    const {id, name, surname, address, city, post, phone} = person 
+function PersonComp({person, onDel, edit}) {
+    const {id, name, surname, address, city, postC, phone} = person 
     return (
         <div>
           <Card>
@@ -19,7 +20,7 @@ function PersonComp({person, onDel}) {
                 City: {city}
               </Typography>
               <Typography>
-                Postal code: {post}
+                Postal code: {postC}
               </Typography>
               <Typography>
                 Phone num.: {phone}
@@ -28,7 +29,9 @@ function PersonComp({person, onDel}) {
             <IconButton onClick={() => onDel(id)}>
               <DeleteOutlinedIcon />
             </IconButton>             
-            
+            <IconButton obClic={() => edit(id)}>
+              <EditIcon />
+            </IconButton>
           </Card>
         </div>
     )

@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+import MainPage from './components/persons/MainPage.js';
 
 ReactDOM.render(
-  <App />,
+  <MainPage />,
   document.getElementById('root')
 );
 

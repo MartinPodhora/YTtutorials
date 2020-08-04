@@ -37,14 +37,7 @@ function InputForm({addP}) {
                                 label="name"
                                 variant="outlined"
                                 value={Person.name}
-                                onChange={val => setPerson({
-                                    name: val.target.value,
-                                    surname: Person.surname,
-                                    address: Person.address,
-                                    city: Person.city,
-                                    postC: Person.postC,
-                                    phone: Person.phone 
-                                })}
+                                onChange={val => setPerson({...Person, name: val.target.value})}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -54,35 +47,19 @@ function InputForm({addP}) {
                                 label="surname" 
                                 variant="outlined"
                                 value={Person.surname}
-                                onChange={val => setPerson({
-                                    name: Person.name,
-                                    surname: val.target.value,
-                                    address: Person.address,
-                                    city: Person.city,
-                                    postC: Person.postC,
-                                    phone: Person.phone 
-                                })}
+                                onChange={val => setPerson({...Person, surname: val.target.value})}
                             />
                         </Grid>
-
-                        <Grid item xs={8}>
+                         <Grid item xs={8}>
                             <TextField
                                 fullWidth 
                                 className="input"
                                 label="address"
                                 variant="outlined"
                                 value={Person.address}
-                                onChange={val => setPerson({
-                                    name: Person.name,
-                                    surname: Person.surname,
-                                    address: val.target.value,
-                                    city: Person.city,
-                                    postC: Person.postC,
-                                    phone: Person.phone 
-                                })}
+                                onChange={val => setPerson({...Person, address: val.target.value})}                           
                             />
                         </Grid>
-
                         <Grid item xs={4}>
                             <TextField
                                 fullWidth 
@@ -90,14 +67,7 @@ function InputForm({addP}) {
                                 label="city"
                                 variant="outlined"
                                 value={Person.city}
-                                onChange={val => setPerson({
-                                    name: Person.name,
-                                    surname: Person.surname,
-                                    address: Person.address,
-                                    city: val.target.value,
-                                    postC: Person.postC,
-                                    phone: Person.phone 
-                                })}
+                                onChange={val => setPerson({...Person, city: val.target.value})}                              
                             />
                         </Grid>
                         <Grid item xs={5}>
@@ -109,14 +79,7 @@ function InputForm({addP}) {
                                 label="postal code"
                                 variant="outlined"
                                 value={Person.postC}
-                                onChange={val => setPerson({
-                                    name: Person.name,
-                                    surname: Person.surname,
-                                    address: Person.city,
-                                    city: Person.city,
-                                    postC: val.target.value,
-                                    phone: Person.phone 
-                                })}
+                                onChange={val => setPerson({...Person, postC: val.target.value})}
                                 error = {Person.postC.length > 5}
                             />
                         </Grid>
@@ -129,14 +92,7 @@ function InputForm({addP}) {
                                 label="phone num."
                                 variant="outlined"
                                 value={Person.phone}
-                                onChange={val => setPerson({
-                                    name: Person.name,
-                                    surname: Person.surname,
-                                    address: Person.city,
-                                    city: Person.city,
-                                    postC: Person.postC,
-                                    phone: val.target.value 
-                                })}
+                                onChange={val => setPerson({...Person, phone: val.target.value})}
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start">+421</InputAdornment>,
                                 }}
