@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { Hidden, ListItemIcon, Drawer, List, ListItem, ListItemText } from '@material-ui/core'
+import { Hidden, ListItemIcon, Drawer, List, ListItem, ListItemText, ClickAwayListener } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from "react-router-dom"
 

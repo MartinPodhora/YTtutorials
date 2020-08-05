@@ -112,7 +112,6 @@ function App() {
       setOpen(true) 
     })
     .catch(err => handleError(err))
-    setPersonList(personList.filter(i => i.id !== indx))
   }
 
   const editHandler = (person) => {
