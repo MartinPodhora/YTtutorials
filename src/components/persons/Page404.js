@@ -22,7 +22,7 @@ function Page404() {
                     </p>
                 </Grid>
                 <Grid item xs={7}>
-                    <Link to="/">
+                    <Link to="/MartinPodhora/YTtutorials.git">
                         Back to App 
                     </Link>
                 </Grid>

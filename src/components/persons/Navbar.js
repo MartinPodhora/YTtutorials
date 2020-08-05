@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { Hidden } from '@material-ui/core'
+import { Link } from 'react-router-dom';
 //import { Button, Drawer } from '@material-ui/core';
 //import { makeStyles } from '@material-ui/core/styles';
 //import { BrowserRouter as Router, Switch, Route, Link} from "react-router-dom"
@@ -38,10 +39,13 @@ const Navbar = (props) => {
           </IconButton>
           <Typography type="title" color="inherit" style={{width: '100%', margin: '20px', minWidth: '160px'}}>
             Person info database
-          </Typography>       
-          <IconButton color="inherit" onClick={login}>
-              <AccountCircle/>
-          </IconButton>
+          </Typography>
+          <Link to="/login" style={{ color: '#FFF' }}>
+            <IconButton color="inherit" onClick={login}>
+                <AccountCircle/>
+            </IconButton>
+          </Link>       
+          
           <Hidden only="xs">
             <Typography type="title" color="inherit" style={{width: '5%', margin: '20px',  minWidth: '60px'}}>
               {logged ? "logout" : "log in"}

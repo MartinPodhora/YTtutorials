@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Grid, TextField, Button, InputAdornment } from '@material-ui/core'
 
-function InputForm({addP}) {
+function InputForm({addP, loading}) {
     const [Person, setPerson] = useState({
         id: "",
         name: "",
@@ -21,9 +21,9 @@ function InputForm({addP}) {
                 alignItems="center"
                 style={{marginTop: '60px'}}
             >   
-                <Grid item xs={3}>
+                <Grid item xs={1} sm={2} md={3} lg={4} xl={4}>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={10} sm={8} md={6} lg={4} xl={3}>
                     <Grid container
                         spacing={2}
                         direction="row"
@@ -32,6 +32,7 @@ function InputForm({addP}) {
                     >
                         <Grid item xs={12}>
                             <TextField
+                                disabled={loading}
                                 fullWidth
                                 className="input"
                                 label="name"
@@ -41,7 +42,8 @@ function InputForm({addP}) {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField 
+                            <TextField
+                                disabled={loading} 
                                 fullWidth
                                 className="input"
                                 label="surname" 
@@ -52,6 +54,7 @@ function InputForm({addP}) {
                         </Grid>
                          <Grid item xs={8}>
                             <TextField
+                                disabled={loading}
                                 fullWidth 
                                 className="input"
                                 label="address"
@@ -62,6 +65,7 @@ function InputForm({addP}) {
                         </Grid>
                         <Grid item xs={4}>
                             <TextField
+                                disabled={loading}
                                 fullWidth 
                                 className="input"
                                 label="city"
@@ -72,6 +76,7 @@ function InputForm({addP}) {
                         </Grid>
                         <Grid item xs={5}>
                             <TextField
+                                disabled={loading}
                                 type="number"
                                 inputProps={{className:'digitsOnly'}}
                                 fullWidth 
@@ -85,6 +90,7 @@ function InputForm({addP}) {
                         </Grid>
                         <Grid item xs={7}>
                             <TextField
+                                disabled={loading}
                                 type="number"
                                 inputProps={{className:'digitsOnly'}}
                                 fullWidth 
@@ -101,10 +107,11 @@ function InputForm({addP}) {
                         </Grid>
                      </Grid>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={1} sm={2} md={3} lg={4} xl={5}>
                 </Grid>
                 <Grid item>
-                    <Button 
+                    <Button
+                        disabled={loading} 
                         color="primary"
                         fullWidth
                         variant="contained"
