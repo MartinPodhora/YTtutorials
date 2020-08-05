@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Navbar = (props) => {
-  const {login, logged} = props
+  const {login, logged, load} = props
   const classes = useStyles();
   const [opened, setOpened] = useState(false)
 
@@ -27,7 +27,7 @@ const Navbar = (props) => {
     <>     
       <AppBar position="sticky" elevation={0} >
         <Toolbar>
-          <IconButton color="inherit" onClick={() => setOpened(true)}>
+          <IconButton color="inherit" onClick={() => {setOpened(true); load(true)}}>
             <MenuIcon/>
           </IconButton>
           <Typography type="title" color="inherit" style={{width: '100%', margin: '20px', minWidth: '160px'}}>

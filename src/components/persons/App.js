@@ -138,7 +138,6 @@ function App() {
   
   useEffect(() => {
     reload()
-    setInterval(() => reload(), 50000)  
   }, [])
 
   const handleClose = () => {
@@ -151,7 +150,7 @@ function App() {
 
   return (
     <div className="App" >
-      <Navbar />   
+      <Navbar load={setLoading}/>   
       <Snackbar 
         open={open} 
         autoHideDuration={6000} 
