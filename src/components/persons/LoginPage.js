@@ -42,7 +42,7 @@ function LoginPage({loading, name, password	}) {
                     >
                         log in
                     </Button>
-                    <Link to="/MartinPodhora/YTtutorials.git">
+                    <Link to="/MartinPodhora/YTtutorials.git" style={{textDecoration: "none"}}>
                         <Button
                             disabled={loading} 
                             color="primary"

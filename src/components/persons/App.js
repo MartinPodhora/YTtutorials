@@ -138,7 +138,7 @@ function App() {
   
   useEffect(() => {
     reload()
-    //setInterval(() => reload(), 50000)  
+    setInterval(() => reload(), 50000)  
   }, [])
 
   const handleClose = () => {
