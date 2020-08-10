@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import InputForm from './InputForm';
 import { Grid } from '@material-ui/core';
 import PersonComp from './PersonComp';
@@ -8,11 +8,38 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Navbar from './Navbar';
 import { Redirect } from 'react-router-dom';
 
+// const reload = () => {
+//   let list
+//   return Axios.get("http://192.168.0.61:9011/UAM/rest/applications/7289/users")
+//     .then(
+//       res => { list =
+//         res.data.map(user => {
+//           let tmp = {
+//             name: user.firstName,
+//             surname: user.lastName,
+//             address: user.email,
+//             phone: user.username,
+//             city: user.leadEmails,
+//             postC: user.description,
+//             id: user.id
+//           }
+//           return tmp
+//         })
+//       console.log("reloaded")}
+//     )
+//     .then(
+//       () => { return list }
+//     )
+//     .catch(err => console.log(err))   
+// }
+
 function App() {
   const [personList, setPersonList] = useState([])
   const [open, setOpen] = useState(false)
-  const [errMsg, setErrMsg] = useState("")
-  const [typeErr, setTypeErr] = useState("error")
+  const [Error, setError] = useState({
+    msg: "",
+    type: "error"
+  })
   const [loading, setLoading] = useState(true)
   const [err404, seterr404] = useState(false)
 
@@ -28,35 +55,33 @@ function App() {
   }
 
   const handleError = (err) => {
-    setTypeErr("error")
+    setError({...Error, type: "error"})
     if (err.response) {
       if (err.response.status === 404) {
         seterr404(true)
       } else if (err.response.status === 500) {
-        setErrMsg("500 Internal Server Error \n" + err.response.headers.reason)
+        setError({...Error, msg: "500 Internal Server Error \n" + err.response.headers.reason})
         setOpen(true)
       } else {
-        setErrMsg(err.response.headers.reason)
+        setError({...Error, msg: err.response.headers.reason})
         setOpen(true)
       }
     } else if (err.request) { 
-      setErrMsg("Not respond from server")
+      setError({...Error, msg:"Not respond from server"})
       setOpen(true)
     } else {
-      setErrMsg(err.message)
+      setError({...Error, msg: err.message})
       setOpen(true)
     }
     setLoading(false)
   }
   
- 
-
   const reload = () => {
     setLoading(true)
     Axios.get("http://192.168.0.61:9011/UAM/rest/applications/7289/users")
       .then(
-        dat => setPersonList(
-          dat.data.map(user => {
+        res => setPersonList(
+          res.data.map(user => {
             let tmp = {
               name: user.firstName,
               surname: user.lastName,
@@ -72,7 +97,12 @@ function App() {
         setTimeout(() => {setLoading(false)}, 800),
       )
       .catch(err => handleError(err))
+    console.log("reloaded")
+    return personList
   }
+  
+  //const personData = useMemo(() => reload().then(???), [personList])
+  //cant process on personList change, PL is changing into reload
 
   const add = (person) => {
     setLoading(true)
@@ -88,15 +118,13 @@ function App() {
         "createdBy": "martin"
       })
       .then(() => { 
-        reload(setPersonList)
-        setTypeErr("success")
-        setErrMsg("Person added")
+        reload()
+        setError({ msg: "Person added", type: "success"})
         setOpen(true) 
       })
       .catch(err => handleError(err))
     } else {
-      setTypeErr("error")
-      setErrMsg("Fill all fields !!")
+      setError({ msg: "Fill all fields !!", type: "error"})
       setOpen(true)
       setLoading(false)
     }     
@@ -106,9 +134,8 @@ function App() {
     setLoading(true)
     Axios.delete("http://192.168.0.61:9011/UAM/rest/applications/7289/users/" + indx)
     .then(() => { 
-      reload(setPersonList)
-      setTypeErr("success")
-      setErrMsg("Person deleted")
+      reload()
+      setError({ msg: "Person deleted", type: "success"})
       setOpen(true) 
     })
     .catch(err => handleError(err))
@@ -127,15 +154,15 @@ function App() {
       "password": person.postC,
       "createdBy": "martin"
     }).then(() => { 
-        reload(setPersonList)
-        setTypeErr("success")
-        setErrMsg("Person edited")
+        reload()
+        setError({ msg: "Person edited", type: "success"})
         setOpen(true) 
       })
       .catch(err => handleError(err))
   }
   
   useEffect(() => {
+    //reload().then(data => console.log(data))
     reload()
   }, [])
 
@@ -159,9 +186,9 @@ function App() {
         <MuiAlert 
           onClose={handleClose} 
           variant="filled" 
-          severity={typeErr}
+          severity={Error.type}
         >
-          {errMsg}
+          {Error.msg}
         </ MuiAlert>
       </Snackbar>
       <InputForm addP={!loading ? add : null} loading={loading}/>
@@ -183,8 +210,7 @@ function App() {
           edit={!loading ? editHandler : null}
           setload={setLoading}
           save={editHandler}
-          errmsg={setErrMsg}
-          errtype={setTypeErr}
+          setErr={setError}
           open={setOpen}
           />
         </Grid>

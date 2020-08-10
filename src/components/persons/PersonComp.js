@@ -3,7 +3,7 @@ import { Card, Typography, CardContent, CardMedia, IconButton, Button, TextField
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import EditIcon from '@material-ui/icons/Edit';
 
-function PersonComp({paPerson, onDel, loading, setload, save, errmsg, errtype, open}) {
+function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
   const [edit, setEdit] = useState(false)
   const [person, setPerson] = useState(paPerson)
 
@@ -37,13 +37,11 @@ function PersonComp({paPerson, onDel, loading, setload, save, errmsg, errtype, o
   const saveData = () => {
     switch (editCheck()) {
       case 1:
-        errtype("error")
-        errmsg("For edit you need to change at least one value")
+        setErr({ msg: "For edit you need to change at least one value", type: "error"})
         open(true) 
         break;
       case 2:
-        errtype("error")
-        errmsg("Fill all the fields")
+        setErr({ msg: "Fill all the fields", type: "error"})
         open(true)
         break;  
       default:
