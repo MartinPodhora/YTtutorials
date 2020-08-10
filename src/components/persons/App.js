@@ -42,6 +42,7 @@ function App() {
   })
   const [loading, setLoading] = useState(true)
   const [err404, seterr404] = useState(false)
+  const [load, setload] = useState(0)
 
   const addCheck = (person) => {
     return (
@@ -101,7 +102,7 @@ function App() {
     return personList
   }
   
-  //const personData = useMemo(() => reload().then(???), [personList])
+  //const personData = useMemo(() => reload(), [load])
   //cant process on personList change, PL is changing into reload
 
   const add = (person) => {
@@ -119,6 +120,7 @@ function App() {
       })
       .then(() => { 
         reload()
+        //setload(load + 1)
         setError({ msg: "Person added", type: "success"})
         setOpen(true) 
       })
@@ -135,6 +137,7 @@ function App() {
     Axios.delete("http://192.168.0.61:9011/UAM/rest/applications/7289/users/" + indx)
     .then(() => { 
       reload()
+      //setload(load + 1)
       setError({ msg: "Person deleted", type: "success"})
       setOpen(true) 
     })
@@ -153,17 +156,37 @@ function App() {
       "description": person.postC,
       "password": person.postC,
       "createdBy": "martin"
-    }).then(() => { 
+    }).then(() => {
         reload()
+        //setload(load + 1)
         setError({ msg: "Person edited", type: "success"})
         setOpen(true) 
       })
       .catch(err => handleError(err))
   }
+
+  const multiDelete = (ids) => {
+    setLoading(true)
+    let resArray = ids.map(id => Axios.delete("http://192.168.0.61:9011/UAM/rest/applications/7289/users/" + id))
+    Promise.allSettled(resArray).then(tmp => {
+      setLoading(false)
+      console.log(tmp)
+      tmp.map((obj, i) => {obj.status === "fulfilled" ? 
+        setError({ msg: "all delted", type: "success"})
+        :
+        setError({ msg: "person with id " + ids[i] + " error: ", type: "error"});
+        console.log(obj.reason.response.headers.reason)
+      })
+    })
+   setOpen(true)
+    reload()  
+  }
   
   useEffect(() => {
     //reload().then(data => console.log(data))
     reload()
+    setLoading(false)
+    //setload(load + 1)
   }, [])
 
   const handleClose = () => {
@@ -191,7 +214,7 @@ function App() {
           {Error.msg}
         </ MuiAlert>
       </Snackbar>
-      <InputForm addP={!loading ? add : null} loading={loading}/>
+      <InputForm addP={!loading ? add : null} loading={loading} handleDelete={multiDelete}/>
       <Grid 
         container
         spacing={5}

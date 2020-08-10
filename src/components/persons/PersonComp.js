@@ -75,6 +75,9 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
               <Typography >
                 Phone num.: {person?.phone}
               </Typography>
+              <Typography >
+                ID: {person?.id}
+              </Typography>
             </>
             :
             <>

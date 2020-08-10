@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { Hidden, ListItemIcon, Drawer, List, ListItem, ListItemText, ClickAwayListener } from '@material-ui/core'
+import { Hidden, ListItemIcon, Drawer, List, ListItem, ListItemText } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from "react-router-dom"
 
@@ -57,7 +57,7 @@ const Navbar = (props) => {
         >
           <List>
             <Link to="/MartinPodhora/YTtutorials.git" className={classes.link}>
-              <ListItem button onClick={() => setOpened(false)}>
+              <ListItem button onClick={() => {setOpened(false); load(false)}}>
                 <ListItemIcon>
                   <HomeIcon />
                 </ListItemIcon>
@@ -70,6 +70,14 @@ const Navbar = (props) => {
                   <AccountCircle />
                 </ListItemIcon>
                 <ListItemText primary={"Log in"}/>
+              </ListItem>
+            </Link>
+            <Link to="/gui" className={classes.link}>
+              <ListItem button onClick={() => setOpened(false)}>
+                <ListItemIcon>
+                  <HomeIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Gui"}/>
               </ListItem>
             </Link>               
           </List>
