@@ -87,7 +87,15 @@ const Navbar = (props) => {
                 </ListItemIcon>
                 <ListItemText primary={"User info detail"}/>
               </ListItem>
-            </Link>               
+            </Link>
+            <Link to="/table" className={classes.link}>
+              <ListItem button onClick={() => setOpened(false)}>
+                <ListItemIcon>
+                  <AccountCircle />
+                </ListItemIcon>
+                <ListItemText primary={"Table"}/>
+              </ListItem>
+            </Link>                
           </List>
         </Drawer>        
       </div>      
