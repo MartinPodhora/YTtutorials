@@ -15,7 +15,7 @@ function UserInfo() {
             Axios.get("http://192.168.0.61:9011/UAM/rest/applications/7289/users")
             .then(res => { return res.data[position].id })
             .then(id => Axios.get("http://192.168.0.61:9011/UAM/rest/applications/7289/users/" + id))
-            .then(user => {setData(user.data); console.log(user.data)})
+            .then(res => {setData(res.data)/*; console.log(user.data)*/})
             .catch(err => alert(err))
         } else {
             alert("wrong index for user")
@@ -43,7 +43,7 @@ function UserInfo() {
                         value={position}
                         label={"position 1-" + length} 
                         variant="outlined"
-                        onChange={(value) => setPosition(value.target.value)}
+                        onChange={(event) => setPosition(event.target.value)}
                     />
                 </Grid>
                 <Grid item xs={4}>

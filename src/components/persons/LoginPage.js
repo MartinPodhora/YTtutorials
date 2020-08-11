@@ -20,7 +20,7 @@ function LoginPage({loading, name, password	}) {
                         label="name"
                         variant="outlined"
                         value={name}
-                        onChange={val => name=val.target.value}
+                        onChange={(event) => name=event.target.value}
                     />
                 </Grid>
                 <Grid item >
@@ -31,7 +31,7 @@ function LoginPage({loading, name, password	}) {
                         variant="outlined"
                         type="password"
                         value={password}
-                        onChange={val => password=val.target.value}
+                        onChange={(event) => password=event.target.value}
                     />
                 </Grid>
                 <Grid item >

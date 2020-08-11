@@ -55,7 +55,7 @@ function InputForm({addP, loading, handleDelete}) {
                                 variant="outlined"
                                 type="number"
                                 value={count}
-                                onChange={val => setcount(val.target.value)}
+                                onChange={(event) => setcount(event.target.value)}
                             />
                         </Grid>
                         {ids.map((data, i) => {
@@ -67,10 +67,10 @@ function InputForm({addP, loading, handleDelete}) {
                                     type="number"
                                     variant="outlined"
                                     label={i + ". ID"}
-                                    onChange={val => {
-                                        let pom = [...ids]
-                                        pom[i] = val.target.value
-                                        setids(pom)
+                                    onChange={(event) => {
+                                        let tmp = [...ids]
+                                        tmp[i] = event.target.value
+                                        setids(tmp)
                                     }}
                                 />
                             </Grid>
@@ -122,7 +122,7 @@ function InputForm({addP, loading, handleDelete}) {
                                 label="first name"
                                 variant="outlined"
                                 value={Person.firstName}
-                                onChange={val => setPerson({...Person, firstName: val.target.value})}
+                                onChange={(event) => setPerson({...Person, firstName: event.target.value})}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -133,7 +133,7 @@ function InputForm({addP, loading, handleDelete}) {
                                 label="last name" 
                                 variant="outlined"
                                 value={Person.lastName}
-                                onChange={val => setPerson({...Person, lastName: val.target.value})}
+                                onChange={(event) => setPerson({...Person, lastName: event.target.value})}
                             />
                         </Grid>
                         <Grid item xs={8}>
@@ -144,7 +144,7 @@ function InputForm({addP, loading, handleDelete}) {
                                 label="address"
                                 variant="outlined"
                                 value={Person.email}
-                                onChange={val => setPerson({...Person, email: val.target.value})}                           
+                                onChange={(event) => setPerson({...Person, email: event.target.value})}                           
                             />
                         </Grid>
                         <Grid item xs={4}>
@@ -155,7 +155,7 @@ function InputForm({addP, loading, handleDelete}) {
                                 label="city"
                                 variant="outlined"
                                 value={Person.leadEmails}
-                                onChange={val => setPerson({...Person, leadEmails: val.target.value})}                              
+                                onChange={(event) => setPerson({...Person, leadEmails: event.target.value})}                              
                             />
                         </Grid>
                         <Grid item xs={5}>
@@ -167,7 +167,7 @@ function InputForm({addP, loading, handleDelete}) {
                                 label="postal code"
                                 variant="outlined"
                                 value={Person.description}
-                                onChange={val => setPerson({...Person, description: val.target.value})}
+                                onChange={(event) => setPerson({...Person, description: event.target.value})}
                                 error = {Person.description.length > 5}
                             />
                         </Grid>
@@ -180,7 +180,7 @@ function InputForm({addP, loading, handleDelete}) {
                                 label="phone num."
                                 variant="outlined"
                                 value={Person.username}
-                                onChange={val => setPerson({...Person, username: val.target.value, password: val.target.value})}
+                                onChange={(event) => setPerson({...Person, username: event.target.value, password: event.target.value})}
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start">+421</InputAdornment>,
                                 }}

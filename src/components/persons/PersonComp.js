@@ -37,12 +37,10 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
   const saveData = () => {
     switch (editCheck()) {
       case 1:
-        setErr({ msg: "For edit you need to change at least one value", type: "error"})
-        open(true) 
+        setErr("For edit you need to change at least one value", "error")
         break;
       case 2:
-        setErr({ msg: "Fill all the fields", type: "error"})
-        open(true)
+        setErr("Fill all the fields", "error")
         break;  
       default:
         setEdit(false)
@@ -97,7 +95,7 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
                         variant="outlined"
                         value={person.firstName}
                         margin="dense"
-                        onChange={val => setPerson({...person, firstName: val.target.value})}
+                        onChange={(event) => setPerson({...person, firstName: event.target.value})}
                       />
                     </Grid>
                     <Grid item xs={6}>
@@ -106,7 +104,7 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
                         variant="outlined"
                         value={person.lastName}
                         margin="dense"
-                        onChange={val => setPerson({...person, lastName: val.target.value})}
+                        onChange={(event) => setPerson({...person, lastName: event.target.value})}
                       />
                     </Grid>
                   </Grid>
@@ -122,7 +120,7 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
                         variant="outlined"
                         value={person.email}
                         margin="dense"
-                        onChange={val => setPerson({...person, email: val.target.value})}
+                        onChange={(event) => setPerson({...person, email: event.target.value})}
                       />
                     </Grid>
                     <Grid item xs={6}>
@@ -131,7 +129,7 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
                         variant="outlined"
                         value={person.leadEmails}
                         margin="dense"
-                        onChange={val => setPerson({...person, leadEmails: val.target.value})}
+                        onChange={(event) => setPerson({...person, leadEmails: event.target.value})}
                       />
                     </Grid>
                   </Grid>
@@ -147,7 +145,7 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
                         variant="outlined"
                         value={person.description}
                         margin="dense"
-                        onChange={val => setPerson({...person, description: val.target.value})}
+                        onChange={(event) => setPerson({...person, description: event.target.value})}
                       />
                     </Grid>
                     <Grid item xs={6}>
@@ -156,7 +154,7 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
                         variant="outlined"
                         value={person.username}
                         margin="dense"
-                        onChange={val => setPerson({...person, username: val.target.value})}
+                        onChange={(event) => setPerson({...person, username: event.target.value})}
                       />
                     </Grid>
                   </Grid>

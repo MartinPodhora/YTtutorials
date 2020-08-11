@@ -18,6 +18,11 @@ function App() {
     type: "error"
   })
 
+  const setSnackbar = (paMsg, paType) => {
+    setError({msg: paMsg, type: paType})
+    setOpen(true)
+  }
+
   const addCheck = (person) => {
     return (
       person.firstName !== "" &&
@@ -30,23 +35,18 @@ function App() {
   }
 
   const handleError = (err) => {
-    setError({...Error, type: "error"})
     if (err.response) {
       if (err.response.status === 404) {
         seterr404(true)
       } else if (err.response.status === 500) {
-        setError({...Error, msg: "500 Internal Server Error \n" + err.response.headers.reason})
-        setOpen(true)
+        setSnackbar("500 Internal Server Error \n" + err.response.headers.reason, "error")
       } else {
-        setError({...Error, msg: err.response.headers.reason})
-        setOpen(true)
+        setSnackbar(err.response.headers.reason, "error")
       }
     } else if (err.request) { 
-      setError({...Error, msg:"Not respond from server"})
-      setOpen(true)
+      setSnackbar("Not respond from server", "error")
     } else {
-      setError({...Error, msg: err.message})
-      setOpen(true)
+      setSnackbar(err.message, "error")
     }
     setLoading(false)
   }
@@ -54,11 +54,9 @@ function App() {
   const reload = () => {
     setLoading(true)
     Axios.get("http://192.168.0.61:9011/UAM/rest/applications/7289/users")
-    .then(
-      res => setPersonList(res.data),
-      setTimeout(() => {setLoading(false)}, 800)
-    )
+    .then(res => setPersonList(res.data))
     .catch(err => handleError(err))
+    .finally(() => setTimeout(() => {setLoading(false)}, 500))
     console.log("reloaded data")
     return personList
   }
@@ -69,13 +67,11 @@ function App() {
       Axios.post("http://192.168.0.61:9011/UAM/rest/applications/7289/users", {...person, createdBy: "Martin Podhora"})
       .then(() => { 
         reload()
-        setError({ msg: "Person added", type: "success"})
-        setOpen(true) 
+        setSnackbar("Person added", "success")
       })
       .catch(err => handleError(err))
     } else {
-      setError({ msg: "Fill all fields !!", type: "error"})
-      setOpen(true)
+      setSnackbar("Fill all fields !!", "error")
       setLoading(false)
     }     
   }
@@ -85,8 +81,7 @@ function App() {
     Axios.delete("http://192.168.0.61:9011/UAM/rest/applications/7289/users/" + indx)
     .then(() => { 
       reload()
-      setError({ msg: "Person deleted", type: "success"})
-      setOpen(true) 
+      setSnackbar("Person deleted", "success")
     })
     .catch(err => handleError(err))
   }
@@ -96,8 +91,7 @@ function App() {
     Axios.put("http://192.168.0.61:9011/UAM/rest/applications/7289/users", {...person, createdBy: "Martin Podhora", additionalData: []})
     .then(() => {
       reload()
-      setError({ msg: "Person edited", type: "success"})
-      setOpen(true) 
+      setSnackbar("Person edited", "success")
     })
     .catch(err => handleError(err))
   }
@@ -106,17 +100,14 @@ function App() {
     setLoading(true)
     let resArray = ids.map(id => Axios.delete("http://192.168.0.61:9011/UAM/rest/applications/7289/users/" + id))
     Promise.allSettled(resArray)
-    .then(tmp => {
-      setLoading(false)
-      tmp.map((obj, i) => {obj.status === "fulfilled" ? 
+    .then(res => {
+      res.map((obj, i) => {obj.status === "fulfilled" ? 
         setTimeout(() => {
-          setError({ msg: "person with id " + ids[i] + " delted", type: "success"})
-          setOpen(true)
+          setSnackbar("person with id " + ids[i] + " delted", "success")
         }, (i * 3000))
         :
         setTimeout(() => {
-          setError({ msg: "person with id " + ids[i] + " error: " + obj.reason.response.headers.reason, type: "error"});
-          setOpen(true)
+          setSnackbar("person with id " + ids[i] + " error: " + obj.reason.response.headers.reason, "error")
         }, (i * 3000))       
       })
     })
@@ -143,7 +134,7 @@ function App() {
           edit={!loading ? editHandler : null}
           setload={setLoading}
           save={editHandler}
-          setErr={setError}
+          setErr={setSnackbar}
           open={setOpen}
         />
       </Grid>
