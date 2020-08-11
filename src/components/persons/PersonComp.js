@@ -13,21 +13,21 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
 
   const editCheck = () => {
     if(
-      paPerson.name === person.name &&
-      paPerson.surname === person.surname &&
-      paPerson.city === person.city &&
-      paPerson.address === person.address &&
-      paPerson.phone === person.phone &&
-      paPerson.postC === person.postC
+      paPerson.firstName === person.firstName &&
+      paPerson.lastName === person.lastName &&
+      paPerson.leadEmails === person.leadEmails &&
+      paPerson.email === person.email &&
+      paPerson.username === person.username &&
+      paPerson.description === person.description
     ) {
       return 1
     } else if (
-      person.name === "" |
-      person.surname === "" |
-      person.city === "" |
-      person.address === "" |
-      person.phone === "" |
-      person.postC === ""
+      person.firstName === "" |
+      person.lastName === "" |
+      person.leadEmails === "" |
+      person.email === "" |
+      person.username === "" |
+      person.description === ""
     ) {
       return 2
     } 
@@ -50,7 +50,6 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
         save(person)
         break;
     }
-
   }
 
   return (
@@ -61,19 +60,19 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
           {!edit ? 
             <>
               <Typography variant="h5" component="h5" >
-                {person?.name} {person?.surname}
+                {person?.firstName} {person?.lastName}
               </Typography>
               <Typography >
-                Adress: {person?.address}
+                Adress: {person?.email}
               </Typography>
               <Typography >
-                City: {person?.city}
+                City: {person?.leadEmails}
               </Typography>
               <Typography >
-                Postal code: {person?.postC}
+                Postal code: {person?.description}
               </Typography>
               <Typography >
-                Phone num.: {person?.phone}
+                Phone num.: {person?.username}
               </Typography>
               <Typography >
                 ID: {person?.id}
@@ -96,18 +95,18 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
                       <TextField
                         label="name"
                         variant="outlined"
-                        value={person.name}
+                        value={person.firstName}
                         margin="dense"
-                        onChange={val => setPerson({...person, name: val.target.value})}
+                        onChange={val => setPerson({...person, firstName: val.target.value})}
                       />
                     </Grid>
                     <Grid item xs={6}>
                       <TextField
                         label="surname"
                         variant="outlined"
-                        value={person.surname}
+                        value={person.lastName}
                         margin="dense"
-                        onChange={val => setPerson({...person, surname: val.target.value})}
+                        onChange={val => setPerson({...person, lastName: val.target.value})}
                       />
                     </Grid>
                   </Grid>
@@ -121,18 +120,18 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
                       <TextField
                         label="address"
                         variant="outlined"
-                        value={person.address}
+                        value={person.email}
                         margin="dense"
-                        onChange={val => setPerson({...person, address: val.target.value})}
+                        onChange={val => setPerson({...person, email: val.target.value})}
                       />
                     </Grid>
                     <Grid item xs={6}>
                       <TextField
                         label="city"
                         variant="outlined"
-                        value={person.city}
+                        value={person.leadEmails}
                         margin="dense"
-                        onChange={val => setPerson({...person, city: val.target.value})}
+                        onChange={val => setPerson({...person, leadEmails: val.target.value})}
                       />
                     </Grid>
                   </Grid>
@@ -146,18 +145,18 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
                       <TextField
                         label="post c."
                         variant="outlined"
-                        value={person.postC}
+                        value={person.description}
                         margin="dense"
-                        onChange={val => setPerson({...person, postC: val.target.value})}
+                        onChange={val => setPerson({...person, description: val.target.value})}
                       />
                     </Grid>
                     <Grid item xs={6}>
                       <TextField
                         label="phone"
                         variant="outlined"
-                        value={person.phone}
+                        value={person.username}
                         margin="dense"
-                        onChange={val => setPerson({...person, phone: val.target.value})}
+                        onChange={val => setPerson({...person, username: val.target.value})}
                       />
                     </Grid>
                   </Grid>

@@ -8,50 +8,24 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Navbar from './Navbar';
 import { Redirect } from 'react-router-dom';
 
-// const reload = () => {
-//   let list
-//   return Axios.get("http://192.168.0.61:9011/UAM/rest/applications/7289/users")
-//     .then(
-//       res => { list =
-//         res.data.map(user => {
-//           let tmp = {
-//             name: user.firstName,
-//             surname: user.lastName,
-//             address: user.email,
-//             phone: user.username,
-//             city: user.leadEmails,
-//             postC: user.description,
-//             id: user.id
-//           }
-//           return tmp
-//         })
-//       console.log("reloaded")}
-//     )
-//     .then(
-//       () => { return list }
-//     )
-//     .catch(err => console.log(err))   
-// }
-
 function App() {
   const [personList, setPersonList] = useState([])
   const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [err404, seterr404] = useState(false)
   const [Error, setError] = useState({
     msg: "",
     type: "error"
   })
-  const [loading, setLoading] = useState(true)
-  const [err404, seterr404] = useState(false)
-  const [load, setload] = useState(0)
 
   const addCheck = (person) => {
     return (
-      person.name !== "" &&
-      person.surname !== "" &&
-      person.city !== "" &&
-      person.address !== "" &&
-      person.phone !== "" &&
-      person.postC !== ""
+      person.firstName !== "" &&
+      person.secondName !== "" &&
+      person.leadEmails !== "" &&
+      person.email !== "" &&
+      person.username !== "" &&
+      person.description !== ""
     )
   }
 
@@ -76,51 +50,25 @@ function App() {
     }
     setLoading(false)
   }
-  
+
   const reload = () => {
     setLoading(true)
     Axios.get("http://192.168.0.61:9011/UAM/rest/applications/7289/users")
-      .then(
-        res => setPersonList(
-          res.data.map(user => {
-            let tmp = {
-              name: user.firstName,
-              surname: user.lastName,
-              address: user.email,
-              phone: user.username,
-              city: user.leadEmails,
-              postC: user.description,
-              id: user.id
-              }
-            return tmp
-          })
-        ),
-        setTimeout(() => {setLoading(false)}, 800),
-      )
-      .catch(err => handleError(err))
-    console.log("reloaded")
+    .then(
+      res => setPersonList(res.data),
+      setTimeout(() => {setLoading(false)}, 800)
+    )
+    .catch(err => handleError(err))
+    console.log("reloaded data")
     return personList
   }
-  
-  //const personData = useMemo(() => reload(), [load])
-  //cant process on personList change, PL is changing into reload
 
   const add = (person) => {
     setLoading(true)
     if(addCheck(person)) {
-      Axios.post("http://192.168.0.61:9011/UAM/rest/applications/7289/users", { 
-        "firstName": person.name,
-        "lastName": person.surname,
-        "email": person.address,
-        "username": person.phone,
-        "leadEmails": person.city,
-        "description": person.postC,
-        "password": person.postC,
-        "createdBy": "martin"
-      })
+      Axios.post("http://192.168.0.61:9011/UAM/rest/applications/7289/users", {...person, createdBy: "Martin Podhora"})
       .then(() => { 
         reload()
-        //setload(load + 1)
         setError({ msg: "Person added", type: "success"})
         setOpen(true) 
       })
@@ -137,7 +85,6 @@ function App() {
     Axios.delete("http://192.168.0.61:9011/UAM/rest/applications/7289/users/" + indx)
     .then(() => { 
       reload()
-      //setload(load + 1)
       setError({ msg: "Person deleted", type: "success"})
       setOpen(true) 
     })
@@ -146,52 +93,62 @@ function App() {
 
   const editHandler = (person) => {
     setLoading(true)
-    Axios.put("http://192.168.0.61:9011/UAM/rest/applications/7289/users", {
-      "id": person.id, 
-      "firstName": person.name,
-      "lastName": person.surname,
-      "email": person.address,
-      "username": person.phone,
-      "leadEmails": person.city,
-      "description": person.postC,
-      "password": person.postC,
-      "createdBy": "martin"
-    }).then(() => {
-        reload()
-        //setload(load + 1)
-        setError({ msg: "Person edited", type: "success"})
-        setOpen(true) 
-      })
-      .catch(err => handleError(err))
+    Axios.put("http://192.168.0.61:9011/UAM/rest/applications/7289/users", {...person, createdBy: "Martin Podhora", additionalData: []})
+    .then(() => {
+      reload()
+      setError({ msg: "Person edited", type: "success"})
+      setOpen(true) 
+    })
+    .catch(err => handleError(err))
   }
 
   const multiDelete = (ids) => {
     setLoading(true)
     let resArray = ids.map(id => Axios.delete("http://192.168.0.61:9011/UAM/rest/applications/7289/users/" + id))
-    Promise.allSettled(resArray).then(tmp => {
+    Promise.allSettled(resArray)
+    .then(tmp => {
       setLoading(false)
-      console.log(tmp)
       tmp.map((obj, i) => {obj.status === "fulfilled" ? 
-        setError({ msg: "all delted", type: "success"})
+        setTimeout(() => {
+          setError({ msg: "person with id " + ids[i] + " delted", type: "success"})
+          setOpen(true)
+        }, (i * 3000))
         :
-        setError({ msg: "person with id " + ids[i] + " error: ", type: "error"});
-        console.log(obj.reason.response.headers.reason)
+        setTimeout(() => {
+          setError({ msg: "person with id " + ids[i] + " error: " + obj.reason.response.headers.reason, type: "error"});
+          setOpen(true)
+        }, (i * 3000))       
       })
     })
-   setOpen(true)
     reload()  
   }
   
   useEffect(() => {
-    //reload().then(data => console.log(data))
     reload()
-    setLoading(false)
-    //setload(load + 1)
   }, [])
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
+
+  const personData = useMemo(() => {
+    console.log("rendered list"); 
+    return personList.map(tmp =>
+      <Grid item key={tmp.id}> 
+        <PersonComp
+          key={tmp.id}
+          paPerson={tmp} 
+          onDel={!loading ? deleteHandler : null}
+          loading={loading}
+          edit={!loading ? editHandler : null}
+          setload={setLoading}
+          save={editHandler}
+          setErr={setError}
+          open={setOpen}
+        />
+      </Grid>
+    )}, [loading]
+  )
 
   if (err404) {
     return <Redirect to="*"/>
@@ -199,10 +156,12 @@ function App() {
 
   return (
     <div className="App" >
-      <Navbar load={setLoading}/>   
+      <Navbar 
+        load={setLoading}
+      />   
       <Snackbar 
         open={open} 
-        autoHideDuration={6000} 
+        autoHideDuration={5000} 
         onClose={handleClose}
         anchorOrigin={{ vertical: "top", horizontal: "center"}}
       >
@@ -214,7 +173,11 @@ function App() {
           {Error.msg}
         </ MuiAlert>
       </Snackbar>
-      <InputForm addP={!loading ? add : null} loading={loading} handleDelete={multiDelete}/>
+      <InputForm 
+        addP={!loading ? add : null} 
+        loading={loading} 
+        handleDelete={multiDelete}
+      />
       <Grid 
         container
         spacing={5}
@@ -223,21 +186,7 @@ function App() {
         alignItems="baseline"
         style= {{margin: "10px"}}
       >
-      {personList.map(tmp =>
-        <Grid item key={tmp.id}> 
-          <PersonComp
-          key={tmp.id}
-          paPerson={tmp} 
-          onDel={!loading ? deleteHandler : null}
-          loading={loading}
-          edit={!loading ? editHandler : null}
-          setload={setLoading}
-          save={editHandler}
-          setErr={setError}
-          open={setOpen}
-          />
-        </Grid>
-      )}  
+      {personData}  
       </Grid>     
     </div>
   )

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import App from './App';
 import LoginPage from './LoginPage';
 import GUI from '../garbage/GUI';
+import UserInfo from './UserInfo';
 
 function MainPage() {
     return (
@@ -13,6 +14,7 @@ function MainPage() {
                     <Route exact path="/MartinPodhora/YTtutorials.git" component={App} />
                     <Route exact path="/login" component={LoginPage} />
                     <Route exact path="/gui" component={GUI} />
+                    <Route exact path="/userInfo" component={UserInfo} />
                     <Route exact path="*" component={Page404} />                  
                 </Switch>               
             </Router>

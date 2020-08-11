@@ -2,27 +2,26 @@ import React, { useState, useEffect } from 'react'
 import { Grid, TextField, Button, InputAdornment } from '@material-ui/core'
 
 function InputForm({addP, loading, handleDelete}) {
-    const [Person, setPerson] = useState({
-        id: "",
-        name: "",
-        surname: "",
-        address: "",
-        city: "",
-        postC: "",
-        phone: ""
-    })
-
     const [del, setdel] = useState(false)
     const [count, setcount] = useState("")
     const [ids, setids] = useState([])
+    const [Person, setPerson] = useState({
+        id: 0,
+        password: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        leadEmails: "",
+        description: "",
+        username: ""
+    }) 
 
     useEffect(() => {
         let tmp = []
         for (let i = 0; i < count; i++) {
             tmp[i]=""
         }
-        setids(tmp)
-        
+        setids(tmp)      
     }, [count])
 
     return (
@@ -60,9 +59,11 @@ function InputForm({addP, loading, handleDelete}) {
                             />
                         </Grid>
                         {ids.map((data, i) => {
-                            return <Grid item xs={6}>
+                            return <Grid item xs={6} key={i}>
                                 <TextField 
                                     value={data}
+                                    disabled={loading}
+                                    className="input" 
                                     type="number"
                                     variant="outlined"
                                     label={i + ". ID"}
@@ -118,10 +119,10 @@ function InputForm({addP, loading, handleDelete}) {
                                 disabled={loading}
                                 fullWidth
                                 className="input"
-                                label="name"
+                                label="first name"
                                 variant="outlined"
-                                value={Person.name}
-                                onChange={val => setPerson({...Person, name: val.target.value})}
+                                value={Person.firstName}
+                                onChange={val => setPerson({...Person, firstName: val.target.value})}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -129,10 +130,10 @@ function InputForm({addP, loading, handleDelete}) {
                                 disabled={loading} 
                                 fullWidth
                                 className="input"
-                                label="surname" 
+                                label="last name" 
                                 variant="outlined"
-                                value={Person.surname}
-                                onChange={val => setPerson({...Person, surname: val.target.value})}
+                                value={Person.lastName}
+                                onChange={val => setPerson({...Person, lastName: val.target.value})}
                             />
                         </Grid>
                         <Grid item xs={8}>
@@ -142,8 +143,8 @@ function InputForm({addP, loading, handleDelete}) {
                                 className="input"
                                 label="address"
                                 variant="outlined"
-                                value={Person.address}
-                                onChange={val => setPerson({...Person, address: val.target.value})}                           
+                                value={Person.email}
+                                onChange={val => setPerson({...Person, email: val.target.value})}                           
                             />
                         </Grid>
                         <Grid item xs={4}>
@@ -153,8 +154,8 @@ function InputForm({addP, loading, handleDelete}) {
                                 className="input"
                                 label="city"
                                 variant="outlined"
-                                value={Person.city}
-                                onChange={val => setPerson({...Person, city: val.target.value})}                              
+                                value={Person.leadEmails}
+                                onChange={val => setPerson({...Person, leadEmails: val.target.value})}                              
                             />
                         </Grid>
                         <Grid item xs={5}>
@@ -165,9 +166,9 @@ function InputForm({addP, loading, handleDelete}) {
                                 className="input"
                                 label="postal code"
                                 variant="outlined"
-                                value={Person.postC}
-                                onChange={val => setPerson({...Person, postC: val.target.value})}
-                                error = {Person.postC.length > 5}
+                                value={Person.description}
+                                onChange={val => setPerson({...Person, description: val.target.value})}
+                                error = {Person.description.length > 5}
                             />
                         </Grid>
                         <Grid item xs={7}>
@@ -178,12 +179,12 @@ function InputForm({addP, loading, handleDelete}) {
                                 className="input"
                                 label="phone num."
                                 variant="outlined"
-                                value={Person.phone}
-                                onChange={val => setPerson({...Person, phone: val.target.value})}
+                                value={Person.username}
+                                onChange={val => setPerson({...Person, username: val.target.value, password: val.target.value})}
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start">+421</InputAdornment>,
                                 }}
-                                error = {Person.phone.length > 9}
+                                error = {Person.username.length > 9}
                             />
                         </Grid>
                         <Grid item xs={5}>
@@ -195,12 +196,12 @@ function InputForm({addP, loading, handleDelete}) {
                                 onClick={() => { 
                                     addP(Person)
                                     setPerson({
-                                        name: "",
-                                        surname: "",
-                                        address: "",
-                                        city: "",
-                                        postC: "",
-                                        phone: ""
+                                        firstName: "",
+                                        lastName: "",
+                                        email: "",
+                                        leadEmails: "",
+                                        description: "",
+                                        username: ""
                                     })
                                 }}
                             >
