@@ -110,8 +110,8 @@ function App() {
           setSnackbar("person with id " + ids[i] + " error: " + obj.reason.response.headers.reason, "error")
         }, (i * 3000))       
       })
-    })
-    reload()  
+      reload() 
+    })  
   }
   
   useEffect(() => {

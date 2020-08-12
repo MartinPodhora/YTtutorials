@@ -5,7 +5,7 @@ import App from './App';
 import LoginPage from './LoginPage';
 import GUI from '../garbage/GUI';
 import UserInfo from './UserInfo';
-import ComplexTable from './ComplexTable';
+import ComplexTable from './table/ComplexTable';
 
 function MainPage() {
     return (
