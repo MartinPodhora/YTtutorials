@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 import InputForm from './InputForm';
 import { Grid } from '@material-ui/core';
 import PersonComp from './PersonComp';
@@ -8,6 +8,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Navbar from './Navbar';
 import { Redirect } from 'react-router-dom';
 import { useError } from "./useError.js"
+import { ErrorList } from "./MainPage"
+import ErrorAlert from "./ErrorAlert"
 
 function App() {
   const [personList, setPersonList] = useState([])
@@ -15,6 +17,9 @@ function App() {
   const [open, setOpen] = useState(false)
   const [err404, seterr404] = useState(false)
   const [Error, setError] = useError("","error", setOpen)
+  const [errors, setErrors] = useContext(ErrorList)
+
+  console.log(errors)
 
   const setSnackbar = (paMsg, paType) => { 
     setError({msg: paMsg, type: paType})
@@ -34,16 +39,21 @@ function App() {
   const handleError = (err) => {
     if (err.response) {
       if (err.response.status === 404) {
+        setErrors([...errors, "error 404 " + Date.now()])
         seterr404(true)
       } else if (err.response.status === 500) {
-        setSnackbar("500 Internal Server Error \n" + err.response.headers.reason, "error")
+        //setSnackbar("500 Internal Server Error \n" + err.response.headers.reason, "error")
+        setErrors([...errors, "500 Internal Server Error \n" + err.response.headers.reason + " " + Date.now()])
       } else {
-        setSnackbar(err.response.headers.reason, "error")
+        //setSnackbar(err.response.headers.reason, "error")
+        setErrors([...errors, err.response.headers.reason + " " + Date.now()])
       }
-    } else if (err.request) { 
-      setSnackbar("Not respond from server", "error")
+    } else if (err.request) {
+      setErrors([...errors, "Not respond from server " + Date.now()]) 
+      //setSnackbar("Not respond from server", "error")
     } else {
-      setSnackbar(err.message, "error")
+      setErrors([...errors, err.message + " " + Date.now()]) 
+      //setSnackbar(err.message, "error")
     }
     setLoading(false)
   }
@@ -146,7 +156,7 @@ function App() {
       <Navbar 
         load={setLoading}
       />   
-      <Snackbar 
+      {/* <Snackbar 
         open={open} 
         autoHideDuration={5000} 
         onClose={handleClose}
@@ -159,7 +169,7 @@ function App() {
         >
           {Error.msg}
         </ MuiAlert>
-      </Snackbar>
+      </Snackbar> */}
       <InputForm 
         addP={!loading ? add : null} 
         loading={loading} 
@@ -174,7 +184,8 @@ function App() {
         style= {{margin: "10px"}}
       >
       {personData}  
-      </Grid>     
+      </Grid>
+      <ErrorAlert/>     
     </div>
   )
 }
