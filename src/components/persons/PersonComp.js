@@ -2,8 +2,9 @@ import React, { useState} from 'react'
 import { Card, Typography, CardContent, CardMedia, IconButton, Button, TextField, Grid } from '@material-ui/core';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import EditIcon from '@material-ui/icons/Edit';
+import PropTypes from 'prop-types'
 
-function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
+function PersonComp({paPerson, onDel, loading, setload, save, setErr}) {
   const [edit, setEdit] = useState(false)
   const [person, setPerson] = useState(paPerson)
 
@@ -195,6 +196,17 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr, open}) {
       </Card>
     </div>
   )
+}
+
+PersonComp.propTypes = {
+  paPerson: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    leadEmails: PropTypes.string,
+    email: PropTypes.string,
+    username: PropTypes.string,
+    description: PropTypes.string
+  })
 }
 
 export default PersonComp

@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, createContext } from 'react'
 import { Link, Redirect } from 'react-router-dom';
 import { Button, TableContainer, Paper, Table, TableRow, TableCell, TableHead, TableBody, Grid, TableFooter, TableSortLabel, TablePagination, Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import Axios from 'axios';
 import Paggination from "./Paggination"
 import Row from "./Row"
+import { useError } from "../useError.js"
+
+export const editContext = createContext()
 
 function ComplexTable() {
     const [page, setPage] = useState(0)
@@ -14,10 +17,7 @@ function ComplexTable() {
     const [loading, setLoading] = useState(true)
     const [err404, seterr404] = useState(false)
     const [open, setOpen] = useState(false)
-    const [Error, setError] = useState({
-        msg: "",
-        type: "error"
-    })
+    const [Error, setError] = useError("","error", setOpen)
 
     let titles = [
         { title: 'First name', field: 'firstName' },
@@ -27,7 +27,6 @@ function ComplexTable() {
 
     const setSnackbar = (paMsg, paType) => {
         setError({ msg: paMsg, type: paType })
-        setOpen(true)
     }
 
     const handleError = (err) => {
@@ -99,6 +98,8 @@ function ComplexTable() {
         return <Redirect to="*" />
     }
 
+    
+
     return (
         <>
             <Link to="/MartinPodhora/YTtutorials.git" style={{ textDecoration: "none" }}>
@@ -142,11 +143,11 @@ function ComplexTable() {
                                     {titles.map((data, i) => {
                                         return (
                                             <>
-                                                <TableCell key={data.title}>
+                                                <TableCell key={i}>
                                                     <TableSortLabel
                                                         active={i === sort.indx}
                                                         direction={sort.asc ? "asc" : "desc"}
-                                                        onClick={() => setSort({ indx: i, asc: !sort.asc })}
+                                                        onClick={() => loading ? null : setSort({ indx: i, asc: !sort.asc })}
                                                     >
                                                         {data.title}
                                                     </TableSortLabel>
@@ -160,16 +161,19 @@ function ComplexTable() {
                                 {(sortedPersons.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage))
                                     .map((person) => {
                                         return (
-                                            <Row
-                                                key={person.id}
-                                                paPerson={person}
-                                                paTitles={titles}
-                                                setload={setLoading}
-                                                paLoading={loading}
-                                                onDel={deleteHandler}
-                                                save={editHandler}
-                                                setErr={setSnackbar}
-                                            />
+                                            <editContext.Provider
+                                                value={{
+                                                    paPerson: person,
+                                                    paTitles: titles,
+                                                    setload: setLoading,
+                                                    paLoading: loading,
+                                                    onDel: deleteHandler,
+                                                    save: editHandler,
+                                                    setErr: setSnackbar,
+                                                }}                                     
+                                            >
+                                                <Row key={person.id}/>
+                                            </editContext.Provider>
                                         )
                                     })}
 

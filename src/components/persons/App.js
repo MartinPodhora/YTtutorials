@@ -7,20 +7,17 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import Navbar from './Navbar';
 import { Redirect } from 'react-router-dom';
+import { useError } from "./useError.js"
 
 function App() {
   const [personList, setPersonList] = useState([])
-  const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [open, setOpen] = useState(false)
   const [err404, seterr404] = useState(false)
-  const [Error, setError] = useState({
-    msg: "",
-    type: "error"
-  })
+  const [Error, setError] = useError("","error", setOpen)
 
-  const setSnackbar = (paMsg, paType) => {
+  const setSnackbar = (paMsg, paType) => { 
     setError({msg: paMsg, type: paType})
-    setOpen(true)
   }
 
   const addCheck = (person) => {
@@ -135,7 +132,6 @@ function App() {
           setload={setLoading}
           save={editHandler}
           setErr={setSnackbar}
-          open={setOpen}
         />
       </Grid>
     )}, [loading]
