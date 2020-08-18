@@ -95,7 +95,23 @@ const Navbar = (props) => {
                 </ListItemIcon>
                 <ListItemText primary={"Table"}/>
               </ListItem>
-            </Link>                
+            </Link>
+            <Link to="/ErrorLog" className={classes.link}>
+              <ListItem button onClick={() => setOpened(false)}>
+                <ListItemIcon>
+                  <AccountCircle />
+                </ListItemIcon>
+                <ListItemText primary={"Error Log"}/>
+              </ListItem>
+            </Link>
+            <Link to="/MultiSelect" className={classes.link}>
+              <ListItem button onClick={() => setOpened(false)}>
+                <ListItemIcon>
+                  <AccountCircle />
+                </ListItemIcon>
+                <ListItemText primary={"Multi Select example"}/>
+              </ListItem>
+            </Link>                 
           </List>
         </Drawer>        
       </div>      

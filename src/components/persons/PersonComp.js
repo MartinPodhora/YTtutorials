@@ -1,10 +1,12 @@
-import React, { useState} from 'react'
+import React, { useState, useContext} from 'react'
 import { Card, Typography, CardContent, CardMedia, IconButton, Button, TextField, Grid } from '@material-ui/core';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import EditIcon from '@material-ui/icons/Edit';
 import PropTypes from 'prop-types'
+import { HandleError as handleError } from "./ErrorAlert"
 
-function PersonComp({paPerson, onDel, loading, setload, save, setErr}) {
+
+function PersonComp({paPerson, onDel, loading, setload, save}) {
   const [edit, setEdit] = useState(false)
   const [person, setPerson] = useState(paPerson)
 
@@ -38,10 +40,10 @@ function PersonComp({paPerson, onDel, loading, setload, save, setErr}) {
   const saveData = () => {
     switch (editCheck()) {
       case 1:
-        setErr("For edit you need to change at least one value", "error")
+        handleError("For edit you need to change at least one value " + Date(Date.now()).toString() ,"Person component")
         break;
       case 2:
-        setErr("Fill all the fields", "error")
+        handleError("Fill all the fields !!! " + Date(Date.now()).toString() ,"Person component")
         break;  
       default:
         setEdit(false)

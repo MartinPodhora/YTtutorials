@@ -3,15 +3,40 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import { ErrorList } from "./MainPage"
 
+export const context = {
+    errors: [],
+    setErrors: null
+}
+
+export function HandleError(err, comp) {
+    if (err instanceof Error) {
+        if (err.response) {
+            if (err.response.status === 404) {
+                context.setErrors([...context.errors, "error 404 page not found " + comp + " " + Date(Date.now()).toString()])
+            } else if (err.response.status === 500) {
+                context.setErrors([...context.errors, "500 Internal Server Error \n" + err.response.headers.reason + " " + comp + " "+ Date(Date.now()).toString()])
+            } else {
+                context.setErrors([...context.errors, err.response.headers.reason + " " + comp + " " + Date(Date.now()).toString()])
+            }
+        } else if (err.request) {
+            context.setErrors([...context.errors, "Not respond from server " + comp + " " + Date(Date.now()).toString()])
+        } else {
+            context.setErrors([...context.errors, err.message + " " + comp + " " + Date(Date.now()).toString()])
+        }
+    } else {
+        context.setErrors([...context.errors, err + " " + Date(Date.now()).toString()])
+    }   
+}
+
 function ErrorAlert() {
     const [open, setOpen] = useState(false)
     const [ errors, setErrors ]  = useContext(ErrorList)
     const msg = errors[errors.length - 1]
-    console.log(msg)
-
+    context.setErrors = setErrors
+    context.errors = errors
 
     useEffect(() => {
-        setOpen(true)
+        errors.length > 0 && setOpen(true)
     }, [errors])
 
     const handleClose = () => {
@@ -31,7 +56,7 @@ function ErrorAlert() {
                     variant="filled" 
                     severity="error"
                 >
-                    {msg !== "" ? msg : ""}
+                    {msg}
                 </ MuiAlert>
             </Snackbar>
         </>

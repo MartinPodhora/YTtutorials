@@ -1,11 +1,10 @@
-import React, { useState, useEffect, createContext } from 'react'
-import { Link, Redirect } from 'react-router-dom';
-import { Button, TableContainer, Paper, Table, TableRow, TableCell, TableHead, TableBody, Grid, TableFooter, TableSortLabel, TablePagination, Snackbar } from '@material-ui/core';
-import MuiAlert from '@material-ui/lab/Alert';
+import React, { useState, useEffect, createContext, useContext } from 'react'
+import { Link } from 'react-router-dom';
+import { Button, TableContainer, Paper, Table, TableRow, TableCell, TableHead, TableBody, Grid, TableFooter, TableSortLabel, TablePagination} from '@material-ui/core';
 import Axios from 'axios';
 import Paggination from "./Paggination"
 import Row from "./Row"
-import { useError } from "../useError.js"
+import { HandleError as handleError } from "../ErrorAlert"
 
 export const editContext = createContext()
 
@@ -15,9 +14,6 @@ function ComplexTable() {
     const [sort, setSort] = useState({ indx: 0, asc: false })
     const [persons, setPersons] = useState([])
     const [loading, setLoading] = useState(true)
-    const [err404, seterr404] = useState(false)
-    const [open, setOpen] = useState(false)
-    const [Error, setError] = useError("","error", setOpen)
 
     let titles = [
         { title: 'First name', field: 'firstName' },
@@ -25,33 +21,12 @@ function ComplexTable() {
         { title: 'ID', field: 'id' }
     ]
 
-    const setSnackbar = (paMsg, paType) => {
-        setError({ msg: paMsg, type: paType })
-    }
-
-    const handleError = (err) => {
-        if (err.response) {
-            if (err.response.status === 404) {
-                seterr404(true)
-            } else if (err.response.status === 500) {
-                setSnackbar("500 Internal Server Error \n" + err.response.headers.reason, "error")
-            } else {
-                setSnackbar(err.response.headers.reason, "error")
-            }
-        } else if (err.request) {
-            setSnackbar("Not respond from server", "error")
-        } else {
-            setSnackbar(err.message, "error")
-        }
-        setLoading(false)
-    }
-
     const reload = () => {
         setLoading(true)
         Axios.get("http://192.168.0.61:9011/UAM/rest/applications/7289/users")
-            .then(res => setPersons(res.data))
-            .catch(err => handleError(err))
-            .finally(() => setTimeout(() => { setLoading(false) }, 500))
+        .then(res => setPersons(res.data))
+        .catch(err => handleError(err, "Table"))
+        .finally(() => setLoading(false))
         console.log("reloaded data")
         return persons
     }
@@ -60,29 +35,22 @@ function ComplexTable() {
         reload()
     }, [])
 
-    const handleClose = () => {
-        setOpen(false)
-    }
-
     const deleteHandler = (indx) => {
         setLoading(true)
         Axios.delete("http://192.168.0.61:9011/UAM/rest/applications/7289/users/" + indx)
-            .then(() => {
-                reload()
-                setSnackbar("Person deleted", "success")
-            })
-            .catch(err => handleError(err))
+        .then(() => {
+            reload()
+        })
+        .catch(err => handleError(err, "Table"))
     }
 
     const editHandler = (person) => {
-
         setLoading(true)
         Axios.put("http://192.168.0.61:9011/UAM/rest/applications/7289/users", {...person, createdBy: "Martin Podhora", additionalData: []})
         .then(() => {
           reload()
-          setSnackbar("Person edited", "success")
         })
-        .catch(err => handleError(err))
+        .catch(err => handleError(err, "Table"))
       }
 
     const handleChangeRowsPerPage = (event) => {
@@ -93,13 +61,7 @@ function ComplexTable() {
     const sortPersons = (byWhat, direction) => persons.sort((a, b) => (a[byWhat] === b[byWhat] ? 0 : (a[byWhat] > b[byWhat] ? -1 : 1)) * (direction ? -1 : 1))
     const sortedPersons = sortPersons(titles[sort.indx].field, sort.asc)
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, persons.length - page * rowsPerPage);
-
-    if (err404) {
-        return <Redirect to="*" />
-    }
-
     
-
     return (
         <>
             <Link to="/MartinPodhora/YTtutorials.git" style={{ textDecoration: "none" }}>
@@ -111,20 +73,6 @@ function ComplexTable() {
                     back
                 </Button>
             </Link>
-            <Snackbar
-                open={open}
-                autoHideDuration={5000}
-                onClose={handleClose}
-                anchorOrigin={{ vertical: "top", horizontal: "center" }}
-            >
-                <MuiAlert
-                    onClose={handleClose}
-                    variant="filled"
-                    severity={Error.type}
-                >
-                    {Error.msg}
-                </ MuiAlert>
-            </Snackbar>
             <Grid
                 container
                 direction="row"
@@ -169,7 +117,6 @@ function ComplexTable() {
                                                     paLoading: loading,
                                                     onDel: deleteHandler,
                                                     save: editHandler,
-                                                    setErr: setSnackbar,
                                                 }}                                     
                                             >
                                                 <Row key={person.id}/>

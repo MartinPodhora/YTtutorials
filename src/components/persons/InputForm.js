@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, TextField, Button, InputAdornment } from '@material-ui/core'
+import { Grid, TextField, Button, InputAdornment, Checkbox } from '@material-ui/core'
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 function InputForm({addP, loading, handleDelete}) {
+    const [selectSize, setselectSize] = useState(8)
     const [del, setdel] = useState(false)
     const [count, setcount] = useState("")
     const [ids, setids] = useState([])
@@ -114,7 +118,7 @@ function InputForm({addP, loading, handleDelete}) {
                         justify="center"
                         alignItems="baseline"
                     >
-                        <Grid item xs={12}>
+                        <Grid item xs={12} lg={6}>
                             <TextField
                                 disabled={loading}
                                 fullWidth
@@ -125,7 +129,7 @@ function InputForm({addP, loading, handleDelete}) {
                                 onChange={(event) => setPerson({...Person, firstName: event.target.value})}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} lg={6}>
                             <TextField
                                 disabled={loading} 
                                 fullWidth
@@ -136,7 +140,7 @@ function InputForm({addP, loading, handleDelete}) {
                                 onChange={(event) => setPerson({...Person, lastName: event.target.value})}
                             />
                         </Grid>
-                        <Grid item xs={8}>
+                        <Grid item xs={12} md={12}>
                             <TextField
                                 disabled={loading}
                                 fullWidth 
@@ -147,7 +151,7 @@ function InputForm({addP, loading, handleDelete}) {
                                 onChange={(event) => setPerson({...Person, email: event.target.value})}                           
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={12} md={4}>
                             <TextField
                                 disabled={loading}
                                 fullWidth 
@@ -158,7 +162,31 @@ function InputForm({addP, loading, handleDelete}) {
                                 onChange={(event) => setPerson({...Person, leadEmails: event.target.value})}                              
                             />
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item xs={12} md={selectSize}>
+                            <Autocomplete
+                                multiple
+                                options={hobyList}
+                                disableCloseOnSelect
+                                getOptionLabel={(option) => option.name}
+                                renderOption={(option, { selected }) => (
+                                    <>
+                                    <Checkbox
+                                        icon={<CheckBoxOutlineBlankIcon/>}
+                                        checkedIcon={<CheckBoxIcon/>}
+                                        style={{ marginRight: 8 }}
+                                        checked={selected}
+                                    />
+                                    {option.name}
+                                    </>
+                                )}
+                                renderInput={(params) => {
+                                    console.log(params )
+                                    params.length > 5 && (setselectSize(12))
+                                    return <TextField {...params} variant="outlined"  placeholder="search" />
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={5}>
                             <TextField
                                 disabled={loading}
                                 type="number"
@@ -171,7 +199,7 @@ function InputForm({addP, loading, handleDelete}) {
                                 error = {Person.description.length > 5}
                             />
                         </Grid>
-                        <Grid item xs={7}>
+                        <Grid item xs={12} md={7}>
                             <TextField
                                 disabled={loading}
                                 type="number"
@@ -187,7 +215,7 @@ function InputForm({addP, loading, handleDelete}) {
                                 error = {Person.username.length > 9}
                             />
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item xs={12} md={5}>
                             <Button
                                 disabled={loading} 
                                 color="primary"
@@ -208,7 +236,7 @@ function InputForm({addP, loading, handleDelete}) {
                                 Add Person
                             </Button>
                         </Grid>
-                        <Grid item xs={7}>
+                        <Grid item xs={12} md={7}>
                             <Button
                                 disabled={loading} 
                                 color="primary"
@@ -228,4 +256,48 @@ function InputForm({addP, loading, handleDelete}) {
     )
 }
 
+const hobyList = [
+    {name: "Bike"},
+    {name: "3D printing"},
+    {name: "Acting"},
+    {name: "Airsofting"},
+    {name: "Audiophilia"},
+    {name: "Birdwatching"},
+    {name: "Boating"},
+    {name: "Driving"},
+    {name: "Golfing"},
+    {name: "Kites"},
+    {name: "Knitting"},
+    {name: "Magic"},
+    {name: "Locksport"},
+    {name: "Model aircraft"},
+    {name: "Netball"},
+    {name: "Paintball"},
+    {name: "Rafting"},
+    {name: "Reading"},
+    {name: "Squash"},
+    {name: "Survival"},
+    {name: "Zumba"},
+    {name: "Wrestling"},
+    {name: "Weightlifting"},
+    {name: "Videophilia"},
+    {name: "Trekkie"},
+    {name: "Tennis"},
+    {name: "Soapmaking"},
+    {name: "Slacklining"},
+    {name: "Shooting"},
+    {name: "Railfans"},
+    {name: "Pottery"},
+    {name: "Piano"},
+    {name: "Needlepoint"},
+    {name: "Motorcycles"},
+    {name: "Microscopy"},
+    {name: "Letterboxing"},
+    {name: "Leathercrafting"},
+    {name: "LARPing"},
+    {name: "Jogging"},
+    {name: "Hooping"},
+    {name: "Hiking"},
+    {name: "Gnoming"}
+]
 export default InputForm

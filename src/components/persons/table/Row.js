@@ -19,7 +19,6 @@ const useRowStyles = makeStyles({
 function Row() {
     let context = useContext(editContext)
     const { paPerson, paTitles, onDel, setload, paLoading } = context
-    console.log(context)
     const [expand, setExpand] = useState(false)
     const [edit, setEdit] = useState(false)
     const classes = useRowStyles();

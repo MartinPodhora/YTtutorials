@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { TextField, Button, Grid, Paper, Typography } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import Axios from 'axios';
+import ErrorAlert from "./ErrorAlert"
+import { HandleError as handleError} from "./ErrorAlert"
 
 function UserInfo() {
     const [position, setPosition] = useState("")
@@ -16,15 +18,16 @@ function UserInfo() {
             .then(res => { return res.data[position].id })
             .then(id => Axios.get("http://192.168.0.61:9011/UAM/rest/applications/7289/users/" + id))
             .then(res => {setData(res.data)/*; console.log(user.data)*/})
-            .catch(err => alert(err))
+            .catch(err => handleError(err, "UserInfo"))
         } else {
-            alert("wrong index for user")
+            handleError("wrong index for user !!! User info Comp " + Date(Date.now()).toString(), "UserInfo")
         }   
     }
 
     useEffect(() => {
         Axios.get("http://192.168.0.61:9011/UAM/rest/applications/7289/users")
         .then(res => setLength(res.data.length))
+        .catch(err => handleError(err, "UserInfo"))
         return setChange(false)
     }, [change])
 
@@ -101,7 +104,8 @@ function UserInfo() {
                         </Typography>                        
                     </Paper>
                 </Grid>
-            </Grid>          
+            </Grid>
+            <ErrorAlert />          
         </>
     )
 }

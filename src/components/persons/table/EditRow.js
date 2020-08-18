@@ -1,10 +1,11 @@
 import React, { useContext, useState, useEffect, useRef} from 'react'
 import { Button, Grid, Card, CardContent, TextField } from '@material-ui/core';
 import { editContext } from "./ComplexTable"
+import { HandleError as handleError} from "../ErrorAlert"
 
 function EditRow(props) {
-    let context = useContext(editContext)
-    const { paPerson, save, setErr, setload } = context
+    const editCon = useContext(editContext)
+    const { paPerson, save, setload } = editCon
     const { expand, edit} = props
     const [person, setPerson] = useState(paPerson)
     const nameText = useRef()
@@ -40,10 +41,10 @@ function EditRow(props) {
     const saveData = () => {
         switch (editCheck()) {
             case 1:
-                setErr("For edit you need to change at least one value", "error")
+                handleError("For edit you need to change at least one value " + Date(Date.now()).toString(), "Edit Row")
                 break;
             case 2:
-                setErr("Fill all the fields", "error")
+                handleError("Fill all the fields !!! " + Date(Date.now()).toString(), "Edit Row")
                 break;
             default:
                 expand(false)

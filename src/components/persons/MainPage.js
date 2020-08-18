@@ -7,6 +7,8 @@ import GUI from '../garbage/GUI';
 import UserInfo from './UserInfo';
 import ComplexTable from './table/ComplexTable';
 import ErrorLog from './ErrorLog';
+import MultiSelect from "./MultiSelect"
+import ErrorAlert from "./ErrorAlert"
 
 export const ErrorList = createContext()
 
@@ -24,10 +26,12 @@ function MainPage() {
                         <Route exact path="/userInfo" component={UserInfo} />
                         <Route exact path="/table" component={ComplexTable} />
                         <Route exact path="/ErrorLog" component={ErrorLog} />
+                        <Route exact path="/MultiSelect" component={MultiSelect} />
                         <Route exact path="*" component={Page404} />                  
                     </Switch>               
                 </Router>
-            </ErrorList.Provider>         
+                <ErrorAlert />
+            </ErrorList.Provider>
         </div>
     )
 }
