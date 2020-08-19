@@ -5,7 +5,7 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 function InputForm({addP, loading, handleDelete}) {
-    const [selectSize, setselectSize] = useState(8)
+    const [selectSize, setselectSize] = useState(6)
     const [del, setdel] = useState(false)
     const [count, setcount] = useState("")
     const [ids, setids] = useState([])
@@ -151,7 +151,7 @@ function InputForm({addP, loading, handleDelete}) {
                                 onChange={(event) => setPerson({...Person, email: event.target.value})}                           
                             />
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} md={(12 - selectSize) === 0 ? 12 : (12 - selectSize)}>
                             <TextField
                                 disabled={loading}
                                 fullWidth 
@@ -170,18 +170,18 @@ function InputForm({addP, loading, handleDelete}) {
                                 getOptionLabel={(option) => option.name}
                                 renderOption={(option, { selected }) => (
                                     <>
-                                    <Checkbox
-                                        icon={<CheckBoxOutlineBlankIcon/>}
-                                        checkedIcon={<CheckBoxIcon/>}
-                                        style={{ marginRight: 8 }}
-                                        checked={selected}
-                                    />
-                                    {option.name}
+                                        <Checkbox
+                                            icon={<CheckBoxOutlineBlankIcon/>}
+                                            checkedIcon={<CheckBoxIcon/>}
+                                            style={{ marginRight: 8 }}
+                                            checked={selected}
+                                        />
+                                        {option.name}
                                     </>
                                 )}
                                 renderInput={(params) => {
-                                    console.log(params )
-                                    params.length > 5 && (setselectSize(12))
+                                    let size = params.InputProps.startAdornment?.length
+                                    size > 5 ? (setselectSize(12)) : (size > 2 ? setselectSize(8) : setselectSize(6))
                                     return <TextField {...params} variant="outlined"  placeholder="search" />
                                 }}
                             />
