@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import { ErrorList } from "./MainPage"
 
-export const context = {
+const context = {
     errors: [],
-    setErrors: null
+    setErrors: null,
+    setOpen: false
 }
 
 export function HandleError(err, comp) {
@@ -25,19 +26,21 @@ export function HandleError(err, comp) {
         }
     } else {
         context.setErrors([...context.errors, err + " " + Date(Date.now()).toString()])
-    }   
+    }
+    context.setOpen(true)   
 }
 
 function ErrorAlert() {
-    const [open, setOpen] = useState(false)
-    const [ errors, setErrors ]  = useContext(ErrorList)
+    //const [open, setOpen] = useState(false)
+    const [ errors, setErrors, open, setOpen ]  = useContext(ErrorList)
     const msg = errors[errors.length - 1]
     context.setErrors = setErrors
     context.errors = errors
+    context.setOpen = setOpen
 
-    useEffect(() => {
-        errors.length > 0 && setOpen(true)
-    }, [errors])
+    // useEffect(() => {
+    //     errors.length > 0 && setOpen(true)
+    // }, [errors])
 
     const handleClose = () => {
         setOpen(false)

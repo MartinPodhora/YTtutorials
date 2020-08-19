@@ -14,10 +14,11 @@ export const ErrorList = createContext()
 
 function MainPage() {
     const [errors, setErrors] = useState([])
+    const [open, setOpen] = useState(false)
 
     return (
         <div>
-            <ErrorList.Provider value={[errors, setErrors]}>
+            <ErrorList.Provider value={[errors, setErrors, open, setOpen]}>
                 <Router>
                     <Switch >
                         <Route exact path="/MartinPodhora/YTtutorials.git" component={App} />
